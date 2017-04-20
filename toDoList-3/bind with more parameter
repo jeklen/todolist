@@ -1,0 +1,22 @@
+  I have a general question that I can't really find
+
+  an answer to so hopefully you guys can help. I have a function that
+  takes 3 parameters, below is an example of what I have.
+
+def someFunction(self, event, string):
+
+   do stuff ..
+
+self.canvas.bind("<Button-1>", self.someFunction("Hello"))
+When I run this, I get an error saying that I passed someFunction 2 arguments instead of 3. I'm not sure why ..
+
+Here you're binding the result of someFunction (or trying to anyway). This fails because when python tries
+to get the result of someFunction,
+it calls it only passing 1 argument ("Hello") when someFunction really
+expects 2 explicit arguments. You probably want something like:
+
+self.canvas.bind('<Button-1>',lambda event: self.someFunction(event,"Hello"))
+This binds a new function (which is created by lambda and wraps around self.someFunction) which
+passes the correct arguments.
+
+
